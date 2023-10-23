@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Aygıtlarım</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="container">
+    <div id="no-device" *ngIf="deviceService.devices.length === 0">
+      Henüz eklenmiş aygıt yok. eklemek için <a style="text-decoration: none;" routerLink="/home/add-device">tıklayınız.</a>
+    </div>
+    <ion-card *ngFor="let device of deviceService.devices">
+      <ion-card-header>
+        <ion-card-subtitle style="display: flex;justify-content: center;">
+          <ion-icon style="font-size:250px;" *ngIf="device.typeId===1" name="tv-outline"></ion-icon>
+          <ion-icon style="font-size:250px;" *ngIf="device.typeId===2" name="bulb-outline"></ion-icon>
+          <ion-icon style="font-size:250px;" *ngIf="device.typeId===3" name="videocam-outline"></ion-icon>
+          <ion-icon style="font-size:250px;" *ngIf="device.typeId===4" name="musical-notes-outline"></ion-icon>
+        </ion-card-subtitle>
+        <ion-card-title>{{device.name}}</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p style="display: flex;align-items: center;" *ngIf="device.typeId === 1 || device.typeId == 4">
+          Ses Düzeyi:<ion-label>{{device.volume}}/100</ion-label>
+          &nbsp;
+          <ion-icon style="font-size: xx-large;" *ngIf="device.volume==0" name="volume-off-outline"></ion-icon>
+          <ion-icon style="font-size: xx-large;" *ngIf="device.volume>0 && device.volume < 40"
+            name="volume-low-outline">
+          </ion-icon>
+          <ion-icon style="font-size: xx-large;" *ngIf="device.volume>40 && device.volume < 80"
+            name="volume-medium-outline"></ion-icon>
+          <ion-icon style="font-size: xx-large;" *ngIf="device.volume>80" name="volume-high-outline"></ion-icon>
+        </p>
+        <p style="display: block;" *ngIf="device.typeId === 1 || device.typeId == 4">
+          <input (change)="updateVolume(device)" type="range" min="0" max="100" [(ngModel)]="device.volume"
+            class="slider" id="myRange">
+        </p>
+        <p style="display: flex;align-items: center;" *ngIf="device.typeId === 2">
+          Lamba Rengi:
+          <!-- <span [style.background]="device.color" style="display:inline-block;border-radius:50%;width: 25px;height: 25px;" ></span> -->
+        </p>
+        <p *ngIf="device.typeId === 2">
+          <input cpPosition="top" [(colorPicker)]="device.color" [style.background]="device.color" />
+          <ion-button (click)="updateColor(device)" fill="clear">
+            <ion-icon name="save-outline"></ion-icon>&nbsp;Rengi Kaydet
+          </ion-button>
+        </p>
+        <p>
+          Cihaz Durumu:
+          <ion-label color="success" *ngIf="device.isOpen">Açık</ion-label>
+          <ion-label color="danger" *ngIf="device.isOpen == false">Kapalı</ion-label>
+        </p>
+        <p>
+          <ion-button [color]="device.isOpen ? 'danger':'success'" (click)="onOff(device)" fill="clear" shape="round">
+            <ion-icon name="power-outline"></ion-icon>&nbsp;
+            <span *ngIf="device.isOpen">
+              Kapat
+            </span>
+            <span *ngIf="device.isOpen==false">
+              Aç
+            </span>
+          </ion-button>
+        </p>
+        <p>
+          <ion-button (click)="editDevice(device)">
+            <ion-icon name="create-outline"></ion-icon>&nbsp;Düzenle
+          </ion-button>
+        </p>
+        <p>
+          <ion-button color="danger" (click)="deleteDevice(device)">
+            <ion-icon name="remove-outline"></ion-icon>&nbsp;Kaldır
+          </ion-button>
+        </p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

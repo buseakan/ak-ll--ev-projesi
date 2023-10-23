@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Aygıt Ekle</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="container" *ngIf="addForm">
+    <form [formGroup]="addForm">
+      <ion-item>
+        <ion-label position="floating">Aygıt İsmi</ion-label>
+        <ion-input formControlName="name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Aygıt Türü</ion-label>
+        <ion-select (ionChange)="checkType()" formControlName="typeId" placeholder="Aygıt Türü Seçiniz">
+          <ion-select-option *ngFor="let type of types" [value]="type.id">{{type.name}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </form>
+    <ion-button [disabled]="!addForm.valid" color="secondary" (click)="add()" expand="block">
+      Aygıtı Ekle
+    </ion-button>
+  </div>
+</ion-content>

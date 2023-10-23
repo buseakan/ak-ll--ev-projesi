@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Aygıt Düzenle</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="close()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="container" *ngIf="editForm">
+    <form [formGroup]="editForm">
+      <ion-item>
+        <ion-label position="floating">Aygıt İsmi</ion-label>
+        <ion-input formControlName="name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Aygıt Türü</ion-label>
+        <ion-select (ionChange)="checkType()" formControlName="typeId" placeholder="Aygıt Türü Seçiniz">
+          <ion-select-option *ngFor="let type of types" [value]="type.id">{{type.name}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </form>
+    <ion-button [disabled]="!editForm.valid" color="secondary" (click)="edit()" expand="block">
+      Aygıtı Kaydet
+    </ion-button>
+  </div>
+</ion-content>

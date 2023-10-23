@@ -1,0 +1,7 @@
+{
+  "name": "akilliEvFrontend",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
